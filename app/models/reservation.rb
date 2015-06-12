@@ -28,13 +28,7 @@ class Reservation < ActiveRecord::Base
     end
   end
   
-  
-  def check_avilability_on_hotel_rooms
-    if !hotel.blank? && hotel.available_rooms == 0
-      errors.add(:end_time, 'no rooms are available')  
-    end
-  end
-  
+ 
   def check_avilability_on_hotel_rooms_on_given_date
     if !hotel.blank? && !self.booked_date.blank?
        if hotel.available_rooms_by_date(self.booked_date) == 0
