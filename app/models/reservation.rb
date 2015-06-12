@@ -19,9 +19,10 @@ class Reservation < ActiveRecord::Base
   end
   
   def gap_between_end_time_and_start_time_should_be_30_min
-    if !start_time.blank? && !end_time.blank?
-      expected_time_gap = start_time+30*60
-      if end_time.to_i < expected_time_gap.to_i 
+    if !start_time.blank? && !end_time.blank?      
+      seconds_diff = (start_time - end_time).to_i.abs
+      minutes = seconds_diff / 60
+     if minutes < 30 
         errors.add(:end_time, 'must have 30 minutes time gap')
       end
     end
