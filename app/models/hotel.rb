@@ -8,5 +8,14 @@ class Hotel < ActiveRecord::Base
     rooms - reservations.count 
   end
   
+  def available_rooms_by_date(date)
+    if !reservations.blank?
+    reservations = reservations.where(:booked_date => date)
+    rooms - reservations.count 
+    else
+    rooms  
+    end    
+  end
+  
   
 end

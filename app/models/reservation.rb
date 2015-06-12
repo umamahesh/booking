@@ -7,7 +7,7 @@ class Reservation < ActiveRecord::Base
   validates :rooms, presence: true, numericality: { greater_than: 0 }
   #validate :start_date_cannot_be_in_the_past
   validate :end_time_cannot_be_same_as_start_time
-  validate :check_avilability_on_hotel_rooms
+  validate :check_avilability_on_hotel_rooms_on_given_date
   validate :gap_between_end_time_and_start_time_should_be_30_min
   
   
@@ -31,6 +31,14 @@ class Reservation < ActiveRecord::Base
   def check_avilability_on_hotel_rooms
     if !hotel.blank? && hotel.available_rooms == 0
       errors.add(:end_time, 'no rooms are available')  
+    end
+  end
+  
+  def check_avilability_on_hotel_rooms_on_given_date
+    if !hotel.blank? && !self.booked_date.blank?
+       if hotel.available_rooms_by_date(self.booked_date) == 0
+         errors.add(:end_time, 'no rooms are available')  
+      end
     end
   end
   
