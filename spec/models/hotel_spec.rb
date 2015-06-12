@@ -44,4 +44,13 @@ RSpec.describe Hotel, type: :model do
     @hotel.rooms = nil
     expect(@hotel).to have(1).error_on(:rooms)
   end
+  
+  it "available count should decrease by 1 when user makes the resservation" do
+    hotel = FactoryGirl.create(:hotel, :rooms => 10)
+    user = FactoryGirl.create(:user)
+    reservation = FactoryGirl.create(:reservation, :hotel => hotel, :user => user)
+    expect(hotel.available_rooms).to eq(9)
+  end
+  
+
 end
